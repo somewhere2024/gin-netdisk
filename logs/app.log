@@ -1,0 +1,1 @@
+{"level":"INFO","time":"2025-04-09T16:04:54.802+0800","caller":"utils/logger.go:86","msg":"/test/status","status":200,"method":"GET","path":"/test/status","query":"","ip":"127.0.0.1","user-agent":"PostmanRuntime-ApipostRuntime/1.1.0","errors":"","cost":0}
