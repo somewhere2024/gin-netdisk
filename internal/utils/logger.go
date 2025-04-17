@@ -24,9 +24,9 @@ var Logger *zap.Logger
 //
 // 返回值：
 //   - err: 初始化过程中可能发生的错误
-func InitLogger(cfg *config.LogConfig) (err error) {
+func InitLogger(cfg *config.Config) (err error) {
 	// 创建文件写入器
-	fileWriteSyncer := getLogWriter(cfg.Filename, cfg.MaxSize, cfg.MaxBackups, cfg.MaxAge)
+	fileWriteSyncer := getLogWriter(cfg.LogConfig.Filename, cfg.LogConfig.MaxSize, cfg.LogConfig.MaxBackups, cfg.LogConfig.MaxAge)
 	// 创建标准输出写入器
 	consoleWriteSyncer := zapcore.AddSync(os.Stdout)
 
@@ -35,7 +35,7 @@ func InitLogger(cfg *config.LogConfig) (err error) {
 
 	encoder := getEncoder()
 	var l = new(zapcore.Level)
-	err = l.UnmarshalText([]byte(cfg.Level))
+	err = l.UnmarshalText([]byte(cfg.LogConfig.Level))
 	if err != nil {
 		return
 	}

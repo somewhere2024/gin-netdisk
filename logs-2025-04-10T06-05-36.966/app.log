@@ -1,0 +1,5 @@
+{"level":"INFO","time":"2025-04-09T16:04:54.802+0800","caller":"utils/logger.go:86","msg":"/test/status","status":200,"method":"GET","path":"/test/status","query":"","ip":"127.0.0.1","user-agent":"PostmanRuntime-ApipostRuntime/1.1.0","errors":"","cost":0}
+{"level":"PANIC","time":"2025-04-10T13:38:52.111+0800","caller":"sqlite/database.go:16","msg":"failed to connect database"}
+{"level":"PANIC","time":"2025-04-10T13:42:48.306+0800","caller":"sqlite/database.go:16","msg":"failed to connect database"}
+{"level":"PANIC","time":"2025-04-10T13:42:58.455+0800","caller":"sqlite/database.go:16","msg":"failed to connect database"}
+{"level":"PANIC","time":"2025-04-10T13:45:45.324+0800","caller":"sqlite/database.go:21","msg":"failed to connect to database: Binary was compiled with 'CGO_ENABLED=0', go-sqlite3 requires cgo to work. This is a stub"}
