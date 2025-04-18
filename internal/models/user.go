@@ -14,7 +14,16 @@ type User struct {
 	StorageUsed   int64     `gorm:"default:0"`     //已存储的单位
 	StorageTotal  int64     `gorm:"default:52428"` //总的存储空间，默认5GB
 	CreatedAt     time.Time `gorm:"autoCreateTime:true"`
-	UpdateAt      time.Time `gorm:"autoUpdateTime:true"`
+	UpdatedAt     time.Time `gorm:"autoUpdateTime:true"`
+}
+
+type UserResponse struct {
+	Username     string
+	Email        string
+	StorageUsed  int64
+	StorageTotal int64
+	CreatedAt    time.Time
+	UpdateAt     time.Time
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {

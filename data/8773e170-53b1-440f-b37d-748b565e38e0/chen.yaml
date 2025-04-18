@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: opaque-secret-env
+  name: opaque-secret-env-deploy
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: op-se-env-pod
+  template:
+    metadata:
+      labels:
+        app: op-se-env-pod
+    spec:
+      containers:
+        - image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/nginx:alpine3.20
+          command: ["/bin/sh", "-c", "while true; do sleep 3600; done"]
+          name: myapp-container
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: secret-volume          # 引用Pod定义的共享存储卷的名称
+              mountPath: /data             # 容器内的挂载路径
+              subPath: default.conf        # 指定挂载的文件名
+              readOnly: false              # 是否为只读模式
+      volumes:
+      - name: secret-volume            # Secret类型存储卷
+        secret:
+          secretName: mysecret         # 引用Secret对象
+          defaultMode: 420             # 设置文件权限，会自动进行8进制转换
+          # items:                       # 挂载secret中部分键值对
+          #   - key: password
+          #     path: password.txt

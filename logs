@@ -18,3 +18,11 @@
 {"level":"INFO","time":"2025-04-16T22:37:13.642+0800","caller":"api/auth.go:23","msg":"未授权"}
 {"level":"INFO","time":"2025-04-16T22:39:24.530+0800","caller":"services/auth.go:66","msg":"创建用户失败"}
 {"level":"INFO","time":"2025-04-16T22:39:24.531+0800","caller":"api/auth.go:51","msg":"创建用户失败"}
+{"level":"ERROR","time":"2025-04-17T09:46:59.957+0800","caller":"services/auth.go:37","msg":"token解析失败"}
+{"level":"ERROR","time":"2025-04-17T09:48:49.308+0800","caller":"services/auth.go:39","msg":"token解析失败"}
+{"level":"ERROR","time":"2025-04-17T09:52:59.563+0800","caller":"services/auth.go:40","msg":"token解析失败"}
+{"level":"ERROR","time":"2025-04-17T12:43:54.528+0800","caller":"services/auth.go:37","msg":"token解析失败"}
+{"level":"ERROR","time":"2025-04-17T13:52:12.953+0800","caller":"services/auth.go:37","msg":"token解析失败"}
+{"level":"ERROR","time":"2025-04-17T17:50:56.278+0800","caller":"services/auth.go:37","msg":"token解析失败"}
+{"level":"ERROR","time":"2025-04-17T17:56:53.231+0800","caller":"services/auth.go:37","msg":"token解析失败"}
+{"level":"WARN","time":"2025-04-18T11:12:17.783+0800","caller":"services/file.go:72","msg":"获取文件路径失败"}

@@ -11,3 +11,13 @@ type UserRegister struct {
 	Password string `form:"password" binding:"max=20"`
 	Email    string `form:"email"`
 }
+
+type FileInfoResponse struct {
+	ID   string
+	Name string
+}
+
+type FileDownloadResponse struct {
+	Path string
+	Name string
+}

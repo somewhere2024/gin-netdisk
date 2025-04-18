@@ -2,6 +2,7 @@ package routers
 
 import (
 	"gin-netdisk/internal/api"
+	"gin-netdisk/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,13 +22,26 @@ func InitRouter() {
 	// 用户认证授权
 	{
 		auth := r.Group("/api/v1/auth")
+		// 跨域
+		auth.Use(middleware.CURSMiddleware)
+
 		auth.POST("/Login", api.Login)
 		auth.POST("/Register", api.Register)
-		auth.GET("/GetUserProfile")
+		auth.GET("/GetUserProfile", middleware.AuthMiddleware, api.GetUserProfile)
 
 	}
 
 	// 文件管理
+	{
+		file := r.Group("/api/v1/files")
+		//file.Use(middleware.AuthMiddleware)
+		file.POST("/upload", middleware.AuthMiddleware, api.FileUpload)
+		file.GET("/:file_id/download", api.FileDownload)
+		file.DELETE("/:file_id", middleware.AuthMiddleware, api.FileDelete)
+		file.PUT("/:file_id", middleware.AuthMiddleware, api.FileRename) //重命名文件
+		file.GET("/fileList", middleware.AuthMiddleware, api.FileGet)
+	}
+	//文件夹管理
 	{
 
 	}

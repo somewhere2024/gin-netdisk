@@ -1,6 +1,8 @@
 package models
 
 import (
+	"github.com/google/uuid"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -8,7 +10,7 @@ type ResourceType int8
 
 const (
 	File   ResourceType = 1
-	folder ResourceType = 2
+	Folder ResourceType = 2
 )
 
 type Resource struct {
@@ -23,4 +25,10 @@ type Resource struct {
 	IsDelete  bool         `gorm:"default:false"`
 	CreatedAt time.Time    `gorm:"not null"`
 	UpdatedAt time.Time
+}
+
+// 生成uuid
+func (u *Resource) BeforeCreate(tx *gorm.DB) (err error) {
+	u.ID = uuid.New().String()
+	return nil
 }

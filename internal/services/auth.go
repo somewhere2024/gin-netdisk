@@ -7,9 +7,12 @@ import (
 	"gin-netdisk/internal/utils"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
+	"time"
 )
 
 var jwtkey = []byte("thisisasecret")
+
+var expiration = time.Hour * 1
 
 func Secret() jwt.Keyfunc {
 	return func(token *jwt.Token) (interface{}, error) {
@@ -18,6 +21,10 @@ func Secret() jwt.Keyfunc {
 }
 
 func CreateToken(payload jwt.MapClaims) (string, error) {
+	//过期时间
+	expire := time.Now().Add(expiration)
+
+	payload["exp"] = expire.Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
 
 	return token.SignedString(jwtkey)

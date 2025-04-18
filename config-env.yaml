@@ -16,3 +16,8 @@ log:
   maxAge: 7
   maxSize: 10
   maxBackups: 10
+
+
+token:
+  secret:
+  expiration: 30

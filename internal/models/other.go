@@ -1,6 +1,8 @@
 package models
 
 import (
+	"github.com/google/uuid"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -43,4 +45,11 @@ type Trash struct {
 	OriginalParentId string    `gorm:"type:char(36)"`
 	DeleteTime       time.Time `gorm:"not null"`
 	ExpireAt         time.Time `gorm:"not null"` //默认回收站自动清理的时间（天）
+}
+
+func (r *Trash) BeforeCreate(tx *gorm.DB) (err error) {
+	r.ID = uuid.New().String()
+	r.DeleteTime = time.Now()
+	r.ExpireAt = time.Now().AddDate(0, 0, 30)
+	return
 }
