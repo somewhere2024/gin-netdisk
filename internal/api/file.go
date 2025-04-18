@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
+	"os"
 )
 
 /*
@@ -80,12 +81,12 @@ func FileGet(c *gin.Context) {
 	userId := userInfo.(jwt.MapClaims)["user_id"].(string)
 	var fileInfo []schemas.FileInfoResponse
 	if parentId == "" {
-		if err := mysql.DB.Model(&models.Resource{}).Where("user_id = ? and name = ?", userId, userId).Select("id").Scan(&parentId).Error; err != nil {
+		if err := mysql.DB.Model(&models.Resource{}).Where("user_id = ? and name = ? and is_delete = ?", userId, userId, 0).Select("id").Scan(&parentId).Error; err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "获取父目录失败", "data": nil})
 			return
 		}
 	}
-	if err := mysql.DB.Model(&models.Resource{}).Where("user_id = ? and parent_id = ?", userId, parentId).Select("id,name").Scan(&fileInfo).Error; err != nil {
+	if err := mysql.DB.Model(&models.Resource{}).Where("user_id = ? and parent_id = ? and is_delete = ?", userId, parentId, 0).Select("id,name").Scan(&fileInfo).Error; err != nil {
 		c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "获取文件列表失败", "data": nil})
 		return
 	}
@@ -143,9 +144,11 @@ func FileDelete(c *gin.Context) {
 
 /*
 重命名文件
-根据文件id，修改文件名
+根据文件id，先查到文件资源
 
 再对文件的路径进行修改
+
+再更改文件资源的name和path
 */
 
 func FileRename(c *gin.Context) {
@@ -156,15 +159,19 @@ func FileRename(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "文件不存在", "data": nil})
 		return
 	}
-	file.Name = newFileName
-	mysql.DB.Save(&file)
-
 	//对文件进行重命名
 	oldPath, _ := services.GetFilePath(fileId)
 	newPath := services.GetParentPath(file.ParentId) + "/" + newFileName
-	if err := services.RenameFile(oldPath, newPath); err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "文件重命名失败", "data": nil})
+	if err := services.RenameFile(oldPath, newPath); err == os.ErrExist {
+		c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "target file already exists!", "data": nil})
+		return
+	} else if err != nil {
+		c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "重命名失败", "data": nil})
 		return
 	}
+
+	file.Name = newFileName
+	file.Path = newPath
+	mysql.DB.Save(&file)
 	c.JSON(http.StatusOK, gin.H{"code": 200, "msg": "文件重命名成功", "data": nil})
 }

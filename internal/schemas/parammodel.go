@@ -21,3 +21,8 @@ type FileDownloadResponse struct {
 	Path string
 	Name string
 }
+
+type FolderInfoResponse struct {
+	ID   string
+	Name string
+}

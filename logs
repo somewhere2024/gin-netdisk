@@ -26,3 +26,5 @@
 {"level":"ERROR","time":"2025-04-17T17:50:56.278+0800","caller":"services/auth.go:37","msg":"token解析失败"}
 {"level":"ERROR","time":"2025-04-17T17:56:53.231+0800","caller":"services/auth.go:37","msg":"token解析失败"}
 {"level":"WARN","time":"2025-04-18T11:12:17.783+0800","caller":"services/file.go:72","msg":"获取文件路径失败"}
+{"level":"ERROR","time":"2025-04-18T11:36:45.612+0800","caller":"services/auth.go:37","msg":"token解析失败"}
+{"level":"ERROR","time":"2025-04-18T12:48:28.760+0800","caller":"services/auth.go:37","msg":"token解析失败"}

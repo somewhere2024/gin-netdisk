@@ -28,9 +28,7 @@ func InitRouter() {
 		auth.POST("/Login", api.Login)
 		auth.POST("/Register", api.Register)
 		auth.GET("/GetUserProfile", middleware.AuthMiddleware, api.GetUserProfile)
-
 	}
-
 	// 文件管理
 	{
 		file := r.Group("/api/v1/files")
@@ -43,7 +41,10 @@ func InitRouter() {
 	}
 	//文件夹管理
 	{
+		folder := r.Group("/api/v1/folders")
 
+		folder.POST("/:folder_id", middleware.AuthMiddleware, api.CreateFolder) //创建文件夹
+		folder.GET("/:folder_id", middleware.AuthMiddleware, api.GetFolderList) //获取指定文件夹下的文件列表
 	}
 
 	r.Run("0.0.0.0:8000")

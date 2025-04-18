@@ -51,3 +51,13 @@ func CreateFolder(userId, name, parentId, path string) error {
 	}
 	return nil
 }
+
+func GetFolderParentPath(parentId string) string {
+	var path string
+
+	if err := mysql.DB.Model(&models.Resource{}).Where("id = ?", parentId).Select("path").Scan(&path).Error; err != nil {
+		utils.Logger.Warn("获取父文件夹路径失败")
+		return ""
+	}
+	return path
+}
